@@ -1,0 +1,18 @@
+[app/ui]
+version = 8.2.9
+modtime = 1682476837.222292000
+
+[app/launcher]
+version = 8.2.9
+modtime = 1682476837.223180000
+
+[app/package/check_for_updates]
+version = 8.2.9
+modtime = 1682476837.223474000
+
+[alert_actions/mattermost]
+access = read : [ * ], write : [ admin, power ]
+export = system
+owner = nobody
+version = 8.2.9
+modtime = 1682480024.837270000
