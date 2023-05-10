@@ -1,6 +1,6 @@
 # Mattermost APP for Splunk
 
-Now an app that can  push alert result to a Mattermost channel.
+Now an app that can push alert result to a Mattermost channel.
 ## Install
 
 - Can install by `splunk_mattermost.tar.gz`.
