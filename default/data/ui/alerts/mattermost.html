@@ -4,7 +4,7 @@
 
         <div class="controls">
             <input type="text" name="action.mattermost.param.url" id="mattermost_url" />
-            <span class="help-block">Enter the full URL of Mattermost integration</span>
+            <span class="help-block">The full URL of Mattermost API (Https Only)</span>
         </div>
     </div>
 
@@ -13,16 +13,27 @@
 
         <div class="controls">
             <input type="text" name="action.mattermost.param.channel" id="mattermost_channel" />
-            <span class="help-block">Enter the channel that this alert should be sent to</span>
+            <span class="help-block">The channel id that this alert should be sent to</span>
         </div>
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="mattermost_token">Integration token</label>
+        <label class="control-label" for="mattermost_header">Integration authorization header value</label>
 
         <div class="controls">
-            <input type="text" name="action.mattermost.param.token" id="mattermost_token" />
-            <span class="help-block">Enter the Mattermost bot token</span>
+            <input type="text" name="action.mattermost.param.header" id="mattermost_header" />
+            <span class="help-block">The request header</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="mattermost_message">Message</label>
+
+        <div class="controls">
+            <textarea name="action.mattermost.param.message" id="mattermost_message" style="height: 120px;"></textarea>
+            <span class="help-block">
+                The message to send to the Mattermost channel.
+            </span>
         </div>
     </div>
 </form>

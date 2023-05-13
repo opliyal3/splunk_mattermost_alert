@@ -1,12 +1,13 @@
 # Mattermost APP for Splunk
 
-Now an app that can push alert result to a Mattermost channel.
+Now an app that can push splunk log alert result or custom message to a Mattermost channel.
 ## Install
 
 - Can install by `splunk_mattermost.tar.gz`.
 - Or move folder to `/opt/splunk/etc/apps `.
 ### First, create an alert.
 
+- If you want to push the alert result to a Mattermost channel, you need the `event_message` field,
 - By using this search, we can monitor the Splunk log.
 - Search grouping by thread_id ensures that messages are correctly and completely captured.
 ![img.png](img/img.png)

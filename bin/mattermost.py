@@ -3,34 +3,6 @@ import json
 import requests
 from datetime import datetime
 
-"""
-index=_internal source="/opt/splunk/var/log/splunk/splunkd.log" log_level="ERROR"  
-|stats values(event_message) as event_message min(_time) as _time by thread_id
-| where like(event_message, "%"+"sendaction.py"+"%") 
-| table _time, event_message, thread_id
-"""
-
-"""
-[TRAPA_sendalert_monitor]
-action.mattermost = 1
-alert.digest_mode = 0
-alert.suppress = 1
-alert.suppress.fields = thread_id
-alert.suppress.period = 60m
-alert.track = 0
-counttype = number of events
-cron_schedule = */1 * * * *
-dispatch.earliest_time = -15m
-dispatch.latest_time = now
-enableSched = 1
-quantity = 0
-relation = greater than
-search = index=_internal source="/opt/splunk/var/log/splunk/splunkd.log" log_level="ERROR"  \
-|stats values(event_message) as event_message min(_time) as _time by thread_id\
-| where like(event_message, "%"+"sendaction.py"+"%") \
-| table _time, event_message, thread_id
-"""
-
 
 def log(msg):
     sys.stderr.write(f'{msg}\n')
@@ -39,19 +11,30 @@ def log(msg):
 def send2mattermost(payload):
     conf = payload.get('configuration')
     url = conf.get('url')
+    if not url.startswith('https://'):
+        raise ValueError("Only HTTPS URLs are allowed.")
     log_data = payload.get('result')
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {conf.get('token')}",
+        "Authorization": conf.get('header'),
     }
-    convert_str = '\n'.join(log_data["event_message"]) if isinstance(log_data["event_message"], list) else log_data[
-        "event_message"]
+    attachments = []
+
+    try:
+        convert_str = '\n'.join(log_data["event_message"]) if isinstance(log_data["event_message"], list) else log_data[
+            "event_message"]
+        if convert_str:
+            attachments.append(
+                {"text": f'{datetime.fromtimestamp(float(log_data["_time"]))},\n{convert_str}'})
+    except:
+        pass
+
+    if conf.get('message'):
+        attachments.append({"pretext": conf.get('message')})
     data = {
         "channel_id": conf.get('channel'),
         "props": {
-            "attachments": [
-                {"text": f'{datetime.fromtimestamp(float(log_data["_time"]))},\n{convert_str}'}
-            ]
+            "attachments": attachments
         },
     }
     response = requests.post(url, headers=headers, json=data)
