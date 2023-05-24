@@ -1,5 +1,7 @@
 # Mattermost APP for Splunk
 
+[send_mattermost_alert](https://splunkbase.splunk.com/app/6890)
+
 Now an app that can push splunk log alert result or custom message to a Mattermost channel.
 ## Install
 
